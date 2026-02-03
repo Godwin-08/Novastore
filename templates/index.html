@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}NovaStore Pro - Boutique{% endblock %}
+
+{% block content %}
+<div class="container page-container">
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Rechercher un produit..." onkeyup="filtrerParRecherche()">
+        <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="shop-layout">
+        <aside class="sidebar">
+            <h3 class="sidebar-title">Catégories</h3>
+            <ul class="category-list">
+                <li class="cat-link active" onclick="filtrerParCategorie('all', this)">🏠 Tout</li>
+                <li class="cat-link" onclick="filtrerParCategorie('PC', this)">💻 Ordinateurs</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Mobile', this)">📱 Smartphones</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Mode', this)">👕 Mode & Vêtements</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Audio', this)">🎧 Audio</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Gaming', this)">🎮 Gaming</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Photo', this)">📷 Photo</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Maison', this)">🏠 Maison</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Sport', this)">🏃 Sport</li>
+                <li class="cat-link" onclick="filtrerParCategorie('Livre', this)">📚 Livres</li>
+            </ul>
+        </aside>
+
+        <div class="main-products-area">
+            
+            <div class="sort-bar">
+                <span class="results-count">{{ produits|length }} produits</span>
+                <div class="sort-options">
+                    <label>Trier par :</label>
+                    <select id="sortSelect" onchange="trierProduits()" class="sort-select">
+                        <option value="prix-asc">Prix croissant</option>
+                        <option value="prix-desc">Prix décroissant</option>
+                        <option value="nom-asc">Nom (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid products-grid">
+                {% for p in produits %} 
+                <div class="card" data-category="{{ p.categorie }}" tabindex="0" role="group" aria-label="{{ p.nom }}">
+                    <div class="card-img-container">
+                        <img src="{{ p.image }}" 
+                             alt="{{ p.nom }}"
+                             onclick="voirDetails('{{p.id}}', '{{p.nom}}', '{{p.prix}}', '{{p.image}}', '{{p.categorie}}', '{{p.description}}')" 
+                             class="card-img">
+                    </div>
+
+                    <div class="card-body">
+                        <h3>{{ p.nom }}</h3>
+                        <div class="price">{{ p.prix }} DH</div>
+                        <button onclick="ajouterAuPanier('{{ p.id }}')" aria-label="Ajouter {{ p.nom }} au panier">
+                            🛒 Ajouter au panier
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

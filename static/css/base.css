@@ -1,0 +1,252 @@
+/* Base CSS (migré depuis style.css) */
+
+/* -----------------------------------------
+   Fonts + Theme variables
+   ----------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
+
+/* Global components (navbar, footer, cards, etc.) imported from components for modularity */
+@import url('./components/navbar.css');
+@import url('./components/buttons.css');
+@import url('./components/cards.css');
+@import url('./components/modal.css');
+@import url('./components/footer.css');
+@import url('./pages/boutique.css');
+
+/* Default (Warm - Terracotta) */
+:root {
+    --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+    --primary: #FF6A3D;
+    --primary-dark: #D9480F;
+    --bg: #FAF7F3;
+    --text: #111827;
+    --accent: #F59E0B;
+
+    /* legacy aliases used by components */
+    --primary-color: var(--primary);
+    --primary-dark: var(--primary-dark);
+    --text-dark: var(--text);
+    --bg-soft: var(--bg);
+
+    --white: #ffffff;
+    --shadow-pro: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --danger: #ef4444;
+    --success: #28a745;
+    --radius: 12px;
+
+    /* Layout tokens (global) */
+    --page-gutter: 1.25rem;
+    --container-max-width: 1200px;
+    --content-gap: 1.25rem;
+    --sidebar-width: 260px;
+}
+
+/* Premium theme (gris foncé + doré) */
+[data-theme="premium"] {
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+    --primary: #D4AF37; /* doré */
+    --primary-dark: #b88f2a;
+    --bg: #0B1220; /* très sombre */
+    --text: #F8F8F8; /* clair pour contraste */
+    --accent: #D4AF37;
+
+    --primary-color: var(--primary);
+    --primary-dark: var(--primary-dark);
+    --text-dark: var(--text);
+    --bg-soft: var(--bg);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Utility Container */
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+}
+
+body { background-color: var(--bg-soft); color: var(--text-dark); line-height: 1.6; margin: 0; font-family: var(--font-sans); }
+
+/* Reste des règles générales (typographie, utilities, modals, responsive, animations) */
+
+/* ==========================================
+   🔧 UTILITAIRES, MODALES ET RESPONSIVE
+   ========================================== */
+
+/* Skip link for keyboard users */
+.skip-link{ position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; z-index: 1000; }
+.skip-link:focus{ left: 1rem; top: 1rem; width: auto; height: auto; padding: 8px 12px; background: var(--white); color: var(--text); border-radius: 6px; box-shadow: 0 6px 20px rgba(2,6,23,0.12); text-decoration: none; }
+
+/* Utility visually-hidden */
+.visually-hidden{ position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* =========================================
+   CORRECTIFS (Hotfixes)
+   ========================================= */
+/* Masquer l'ancienne barre de recherche qui traîne dans la page boutique */
+main .search-bar,
+main #searchInput {
+    display: none !important;
+}
+
+/* =========================================
+   NOTIFICATIONS (Toast)
+   ========================================= */
+.toast-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--text-dark);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 600;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* --- LOGO PRO (Orange) --- */
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #FF6A3D, #c2410c);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 15px rgba(255, 106, 61, 0.25);
+}
+
+.brand-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.brand-accent {
+    color: #FF6A3D;
+}
+
+/* Bouton Danger (Vider panier) */
+.btn-danger {
+    background-color: #ef4444;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+}
+.btn-danger:hover { background-color: #dc2626; }
+
+/* Menu Pro : Sticky & Glassmorphism */
+.navbar {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* --- MENU PROFIL DÉROULANT --- */
+.profile-container {
+    position: relative;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+.profile-trigger:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.user-name-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    width: 220px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 15px;
+    display: none; /* Caché par défaut */
+    z-index: 1000;
+    border: 1px solid #e2e8f0;
+    transform-origin: top right;
+}
+
+.profile-dropdown.show {
+    display: block !important; /* Force l'affichage */
+    animation: fadeIn 0.2s ease-out;
+}
+
+.dropdown-user-info { padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+.dropdown-item { display: block; padding: 10px; color: #334155; text-decoration: none; border-radius: 8px; transition: 0.2s; }
+.dropdown-item:hover { background: #f8fafc; color: var(--primary-color); }
+.logout-btn { color: #ef4444; }
+.logout-btn:hover { background: #fee2e2; color: #ef4444; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

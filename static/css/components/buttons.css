@@ -1,0 +1,30 @@
+/* Buttons */
+.btn-start, .btn-submit, .btn-add {
+    display: inline-block; padding: 0.9rem 1.2rem; background: linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary-dark) 20%)); color: white; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.btn-start { width: 100%; padding: 1.2rem; border-radius: 15px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 12px 30px rgba(255,106,61,0.15); }
+.btn-start:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 20px 40px rgba(255,106,61,0.18); }
+.btn-start:active { transform: translateY(-1px) scale(0.995); }
+
+.btn-submit { width: 100%; padding: 0.9rem; border-radius: 10px; }
+.btn-add { width: auto; padding: 0.6rem 0.9rem; border-radius: 10px; }
+
+/* Focus states for accessibility */
+.btn-start:focus:not(:focus-visible), .btn-submit:focus:not(:focus-visible), .btn-add:focus:not(:focus-visible), .btn-qty:focus:not(:focus-visible) { outline: none; }
+.btn-start:focus-visible, .btn-submit:focus-visible, .btn-add:focus-visible, .btn-qty:focus-visible {
+    outline: none; /* use box-shadow ring instead */
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 22%, transparent), 0 6px 24px rgba(2,6,23,0.12);
+}
+
+/* Prefer reduced motion users */
+@media (prefers-reduced-motion: reduce){
+  .btn-start, .btn-submit, .btn-add, .btn-qty { transition: none !important; }
+}
+
+
+.btn-qty { background: white; border: 1px solid #ddd; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
+.btn-qty:hover { background: var(--primary); color: white; }
+
+.btn-delete { background: #fee2e2; color: var(--danger); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
+.btn-delete:hover { background: var(--danger); color: white; transform: rotate(90deg); }

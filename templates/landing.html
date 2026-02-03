@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Bienvenue chez NovaStore{% endblock %}
+
+{% block description %}Découvrez la nouvelle collection 2025 chez NovaStore : High-Tech, Mode et Maison. Profitez de la livraison express partout au Maroc.{% endblock %}
+
+{% block og_image %}{{ url_for('static', filename='images/Home.jpg', _external=True) }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Section 1: Hero (Corrigé: div au lieu de main pour éviter l'imbrication) -->
+<div class="hero-landing" aria-labelledby="hero-title">
+    <!-- background image set by CSS variable to keep templates safe -->
+    <div class="hero-bg" style="background: linear-gradient(135deg, #0f172a 0%, #334155 100%);"></div>
+
+    <div class="hero-grid container page-container variant-a">
+        <section class="hero-content" role="region" aria-label="Intro">
+            <div class="kicker">NOUVELLE COLLECTION 2025</div>
+            <h1 id="hero-title">Bienvenue chez <span class="accent">NovaStore</span></h1>
+            <p class="lead">Découvrez le meilleur de la High‑Tech et les dernières tendances Mode au Maroc — sélection premium, livraison rapide et paiement sécurisé.</p>
+
+            <div class="hero-ctas" role="group" aria-label="Actions principales">
+                <a href="/boutique" class="btn-start" aria-label="Commencer mes achats">Commencer mes achats</a>
+                <a href="#univers" class="btn-ghost" aria-label="Découvrir la collection">Découvrir</a>
+            </div>
+
+            <p class="subtle">
+                <a href="/login">Déjà client ? <strong>Se connecter</strong></a>
+            </p>
+        </section>
+
+        <aside class="hero-visual">
+            <div class="visual-card">
+                <img src="{{ url_for('static', filename='images/Home.jpg') }}" alt="Collection NovaStore" width="600" height="800" fetchpriority="high" onerror="this.onerror=null; this.src='https://placehold.co/600x800/png?text=NovaStore+Collection';"/>
+                <div class="visual-overlay">Nouvelle Saison</div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- Section 2: Pourquoi nous choisir ? (Preuve sociale) -->
+<section class="container" style="padding: 60px 20px;">
+    <div class="section-header">
+        <h2 class="section-title">Pourquoi choisir NovaStore ?</h2>
+        <p class="section-subtitle">Nous nous engageons à vous offrir la meilleure expérience d'achat au Maroc.</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">✨</span>
+            <h3 class="feature-title">Qualité Premium</h3>
+            <p>Des produits 100% authentiques, sélectionnés avec soin par nos experts.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🚚</span>
+            <h3 class="feature-title">Livraison Express</h3>
+            <p>Recevez vos commandes partout au Maroc en 24h à 48h ouvrables.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🛡️</span>
+            <h3 class="feature-title">Garantie & Support</h3>
+            <p>Service après-vente réactif et garantie satisfait ou remboursé.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Nos Univers (Navigation visuelle) -->
+<section id="univers" class="container" style="padding: 60px 20px;">
+    <div class="section-header">
+        <h2 class="section-title">Explorez nos Univers</h2>
+    </div>
+    <div class="categories-grid">
+        {% for section in sections %}
+        <a href="{{ url_for('main.boutique', cat=section.cat) }}" class="category-card">
+            <!-- Placeholder image colorée si pas d'image -->
+            <div class="category-bg" style="background: {{ loop.cycle('linear-gradient(45deg, #2563eb, #1e40af)', 'linear-gradient(45deg, #db2777, #9d174d)', 'linear-gradient(45deg, #059669, #047857)') }};"></div>
+            <div class="category-overlay">
+                <h3 class="cat-title">{{ section.titre }} <small style="font-size: 0.6em; opacity: 0.9;">({{ section.count }})</small></h3>
+                <span class="cat-link">{{ section.btn }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Section 4: Newsletter -->
+<section class="container" style="margin-bottom: 60px;">
+    <div class="newsletter-section">
+        <h2 style="margin-bottom: 1rem;">Ne ratez aucune offre !</h2>
+        <p style="opacity: 0.9;">Inscrivez-vous à notre newsletter pour recevoir nos codes promo exclusifs.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Merci pour votre inscription !');">
+            <input type="email" class="newsletter-input" placeholder="Votre adresse email..." required>
+            <button type="submit" class="btn-subscribe">Je m'inscris</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

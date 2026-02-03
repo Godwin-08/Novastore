@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Livraison & Retours - NovaStore Khouribga{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/livraison.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-custom section-padding">
+    <h1 class="section-title">Livraison et Retours</h1>
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- Section Livraison -->
+        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+            <h2 style="color: #2563eb; margin-bottom: 20px; display: flex; align-items: center;">
+                <span style="font-size: 1.5em; margin-right: 10px;">🚚</span> Expédition & Livraison
+            </h2>
+            
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px;">📍 Livraison à Khouribga</h3>
+            <p style="color: #475569; margin-bottom: 20px;">
+                Puisque nous sommes basés à <strong>Khouribga</strong>, profitez de la livraison express le jour même ou le lendemain pour toute commande passée avant 14h.
+            </p>
+
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px;">🇲🇦 Partout au Maroc</h3>
+            <p style="color: #475569; margin-bottom: 15px;">
+                Nous livrons dans toutes les villes du Royaume via nos partenaires Amana et CTM Messagerie.
+            </p>
+            <ul style="list-style: none; padding: 0; color: #475569;">
+                <li style="margin-bottom: 8px;">• <strong>Délais :</strong> 24h à 48h ouvrables.</li>
+                <li style="margin-bottom: 8px;">• <strong>Frais :</strong> 35 DH (Gratuit à partir de 500 DH d'achat).</li>
+            </ul>
+        </div>
+
+        <!-- Section Retours -->
+        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h2 style="color: #2563eb; margin-bottom: 20px; display: flex; align-items: center;">
+                <span style="font-size: 1.5em; margin-right: 10px;">🔄</span> Politique de Retour
+            </h2>
+            
+            <p style="color: #475569; margin-bottom: 20px;">
+                Votre satisfaction est notre priorité. Si un produit ne vous convient pas, vous disposez de <strong>7 jours</strong> après réception pour effectuer un retour.
+            </p>
+
+            <div style="background: #f8fafc; padding: 15px; border-left: 4px solid #2563eb; border-radius: 4px;">
+                <strong>Conditions de retour :</strong>
+                <ul style="margin: 10px 0 0 20px; color: #475569;">
+                    <li>Le produit doit être dans son emballage d'origine.</li>
+                    <li>Le produit ne doit pas avoir été utilisé.</li>
+                    <li>La facture d'achat est obligatoire.</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 20px; color: #475569;">
+                Pour initier un retour, contactez-nous simplement au <strong>05 22 00 00 00</strong> ou passez à notre magasin à Khouribga.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

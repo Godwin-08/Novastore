@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Boutique - NovaStore{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boutique.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-custom section-padding">
+    <div class="boutique-layout">
+        <!-- Sidebar Filtres (Le menu à gauche restauré) -->
+        <aside class="sidebar-filters">
+            <div class="filter-section">
+                <h3>Catégories</h3>
+                <ul class="filter-list">
+                    <li><a href="#" data-category="tous" class="cat-link active">Tout voir</a></li>
+                    <li><a href="#" data-category="PC" class="cat-link">PC</a></li>
+                    <li><a href="#" data-category="Téléphone" class="cat-link">Téléphone</a></li>
+                    <li><a href="#" data-category="Vêtement" class="cat-link">Vêtement</a></li>
+                    <li><a href="#" data-category="Livre" class="cat-link">Livre</a></li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h3>Prix</h3>
+                <div class="price-range">
+                    <input type="number" id="priceMin" placeholder="Min" class="form-input">
+                    <input type="number" id="priceMax" placeholder="Max" class="form-input">
+                </div>
+                <button id="btnFilterPrice" class="btn-filter">Filtrer</button>
+            </div>
+
+            <div class="filter-section">
+                <h3>Disponibilité & Promo</h3>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="cbStock" checked> En Stock
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="cbPromo"> En Promotion
+                </label>
+            </div>
+
+            <div class="filter-section">
+                <h3>Trier par</h3>
+                <select id="sortSelect" class="form-select">
+                    <option value="pertinence">Pertinence</option>
+                    <option value="prix-asc">Prix croissant</option>
+                    <option value="prix-desc">Prix décroissant</option>
+                    <option value="nom-asc">Nom (A-Z)</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Contenu Principal -->
+        <div class="main-shop">
+            <div class="shop-header">
+                <h1 class="section-title">
+                    {% if request.args.get('promo') %}
+                        🔥 Promotions du moment
+                    {% elif request.args.get('cat') %}
+                        {{ request.args.get('cat') }}
+                    {% else %}
+                        Toute la boutique
+                    {% endif %}
+                </h1>
+                <p style="color: #64748b;">Découvrez notre sélection exclusive de produits.</p>
+            </div>
+
+            <div class="products-grid">
+                {% for p in produits %}
+                <div class="product-card card" 
+                     data-category="{{ p.categorie }}" 
+                     data-price="{{ p.prix }}" 
+                     data-promo="{{ 'true' if p.promo > 0 else 'false' }}"
+                     data-id="{{ p.id }}"
+                     data-stock="{{ p.stock }}">
+                    <div class="product-image" onclick='window.openProductModal({{ p.to_dict()|tojson }})'>
+                        <img src="{{ p.image }}" alt="{{ p.nom }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; align-items:center; justify-content:center; background:#f8fafc; color:#cbd5e1;">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M21 21l-2-2m-3.268-3.268L6 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3.172"></path><path d="M7 3h10a2 2 0 0 1 2 2v2.172"></path></svg>
+                        </div>
+                        {% if p.promo > 0 %}
+                            <span class="badge-promo">-{{ p.promo }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <span class="category">{{ p.categorie }}</span>
+                        <h3>{{ p.nom }}</h3>
+                        
+                        {% if p.promo > 0 %}
+                            <p class="price">
+                                <span style="text-decoration: line-through; color: #94a3b8; font-size: 0.9rem; margin-right: 5px;">
+                                    {{ (p.prix / (1 - p.promo / 100))|int }} dhs
+                                </span>
+                                {{ p.prix }} dhs
+                            </p>
+                        {% else %}
+                            <p class="price">{{ p.prix }} dhs</p>
+                        {% endif %}
+
+                        {% if p.stock > 0 %}
+                            {% if p.stock < 5 %}
+                                <p style="color: #eab308; font-size: 0.8rem; margin-bottom: 10px; font-weight: 600;">⚠️ Plus que {{ p.stock }} en stock !</p>
+                            {% endif %}
+                            <button class="btn-add" onclick="window.ajouterAuPanier({{ p.id }})">
+                                Ajouter au panier
+                            </button>
+                        {% else %}
+                            <p style="color: #ef4444; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem;">Rupture de stock</p>
+                            <button class="btn-add" disabled style="background: #cbd5e1; cursor: not-allowed; box-shadow: none;">Épuisé</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+                    <p style="font-size: 1.2rem; color: #64748b;">Aucun produit ne correspond à votre recherche.</p>
+                    <a href="{{ url_for('main.boutique') }}" style="color: #2563eb; text-decoration: underline;">Voir tout le catalogue</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

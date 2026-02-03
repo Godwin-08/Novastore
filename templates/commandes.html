@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Mes Commandes - NovaStore Pro{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/commandes.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="orders-container">
+    <h1 style="margin-bottom: 30px;">📦 Mes Commandes</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div style="padding: 15px; margin-bottom: 20px; border-radius: 12px; 
+                            background-color: {{ '#dcfce7' if category == 'success' else '#fee2e2' }}; 
+                            color: {{ '#166534' if category == 'success' else '#991b1b' }}; 
+                            border: 1px solid {{ '#bbf7d0' if category == 'success' else '#fecaca' }}; ">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% for cmd in commandes %}
+    <div class="order-card">
+        <div class="order-header">
+            <div>
+                <span style="color: #64748b; font-size: 0.9rem;">Commande</span>
+                <h3 style="margin: 0;">#{{ cmd.id_commande }}</h3>
+            </div>
+            <div class="status-badge">{{ cmd.statut.value }}</div>
+        </div>
+
+        <p><strong>Date :</strong> {{ cmd.date_commande.strftime('%d/%m/%Y') }} | <strong>Total :</strong> {{ cmd.total }} DH</p>
+
+        <div class="tracking-wrapper">
+            <p style="font-weight: 600; margin-bottom: 10px;">Suivi du colis :</p>
+            <div class="tracking-bar-bg">
+                <div class="tracking-bar-fill" style="width: {{ cmd.progression|default(25) }}%;"></div>
+            </div>
+            <div class="tracking-steps">
+               <div class="step {{ 'active' if cmd.progression >= 25 else '' }}">Confirmée</div>
+                <div class="step {{ 'active' if cmd.progression >= 50 else '' }}">Préparée</div>
+                <div class="step {{ 'active' if cmd.progression >= 75 else '' }}">Expédiée</div>
+                <div class="step {{ 'active' if cmd.progression >= 100 else '' }}">Livrée</div>
+            </div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 15px; border-radius: 12px; font-size: 0.9rem; border: 1px solid #e2e8f0;">
+            <strong style="color: #1e293b;">Articles :</strong> 
+            <span style="color: #64748b;">
+                {% for item in cmd.items %}
+                    {{ item.produit.nom }} (x{{ item.quantite }})
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+            {% if cmd.statut.value == 'En cours' %}
+            <a href="{{ url_for('main.annuler_commande', oid=cmd.id_commande) }}" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?')" 
+               style="padding: 8px 16px; background-color: #ef4444; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9rem; font-weight: 500;">
+               Annuler
+            </a>
+            {% endif %}
+            <a href="{{ url_for('main.recommander', oid=cmd.id_commande) }}" 
+               style="padding: 8px 16px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9rem; font-weight: 500;">
+               Commander à nouveau
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 80px 20px; background: white; border-radius: 30px; border: 1px solid #e2e8f0;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">📦</div>
+        <h2>Aucune commande</h2>
+        <p style="color: #64748b; margin-bottom: 30px;">Vous n'avez pas encore passé de commande chez NovaStore.</p>
+        <a href="/boutique" class="btn-start" style="display: inline-block; width: auto; padding: 15px 40px; text-decoration: none;">Faire mon premier achat</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

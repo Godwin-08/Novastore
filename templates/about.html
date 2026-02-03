@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}À Propos - NovaStore Pro{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <section class="about-hero">
+        <div class="container">
+            <span class="badge">NOTRE MISSION</span>
+            <h1>L'innovation au service de votre quotidien</h1>
+            <p>Bienvenue chez NovaStore Pro, la destination n°1 au Maroc pour les passionnés de technologie et de mode.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="about-grid">
+            <div class="value-card">
+                <div class="value-icon">🚀</div>
+                <h3>Rapidité</h3>
+                <p>Livraison express en 24h/48h partout au Maroc pour tous nos produits en stock.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🛡️</div>
+                <h3>Garantie</h3>
+                <p>Tous nos articles sont certifiés originaux avec une garantie constructeur officielle.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🎧</div>
+                <h3>Support 24/7</h3>
+                <p>Une équipe d'experts à votre écoute via WhatsApp ou téléphone pour vous conseiller.</p>
+            </div>
+        </div>
+
+        <section class="about-content">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <h2>Notre Histoire</h2>
+                    <p>Fondée en 2024, <strong>NovaStore Pro</strong> est née d'une vision simple : rendre la technologie de pointe accessible à tous les Marocains sans compromis sur la qualité.</p>
+                    <p>Ce qui a commencé comme une petite sélection d'accessoires High-Tech est devenu une marketplace complète regroupant les plus grandes marques mondiales (Apple, Samsung, Sony) et les dernières tendances mode.</p>
+                    <p>Nous sélectionnons rigoureusement chaque produit pour vous offrir le meilleur rapport qualité-prix du marché.</p>
+                </div>
+                <div class="image-placeholder">
+                    <span>🏢</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

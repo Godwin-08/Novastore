@@ -1,0 +1,33 @@
+/* Cards */
+.card { background: var(--white); border-radius: 1rem; overflow: hidden; box-shadow: 0 8px 20px rgba(17,24,39,0.06); transition: transform 0.36s cubic-bezier(0.22,1,0.36,1), box-shadow 0.36s; position: relative; border: 1px solid rgba(17,24,39,0.03); }
+.card:hover { transform: translateY(-10px) scale(1.01); box-shadow: 0 30px 50px rgba(17,24,39,0.08); }
+.card img, .card .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.4s ease; }
+.card:hover img { transform: scale(1.06); filter: saturate(1.05) contrast(1.02); }
+
+/* Accessible focus for cards */
+.card:focus:not(:focus-visible) { outline: none; }
+.card:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 22%, transparent), 0 20px 40px rgba(2,6,23,0.14); transform: translateY(-6px); }
+
+.promo-badge { position: absolute; top: 12px; left: 12px; background: linear-gradient(90deg,#FF6A3D,#D9480F); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 10; box-shadow: 0 6px 18px rgba(255,106,61,0.12); }
+.card-body { padding: 1.5rem; text-align: center; }
+.price { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.6rem; background: linear-gradient(90deg, color-mix(in srgb,var(--primary) 12%, transparent), transparent); display:inline-block; padding:6px 10px; border-radius: 10px; }
+
+/* Nouveau style de bouton "Ajouter" plus subtil */
+.card-body button { 
+    width: 100%; 
+    padding: 0.8rem; 
+    background: transparent; 
+    border: 2px solid var(--primary); 
+    color: var(--primary); 
+    border-radius: 0.75rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.card-body button:hover { 
+    background: var(--primary); 
+    color: white; 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 20px rgba(255,106,61,0.15); 
+}

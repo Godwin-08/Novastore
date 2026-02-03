@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Panier - NovaStore Pro{% endblock %}
+
+{% block content %}
+<div class="container panier-container" style="padding-top: 40px; min-height: 70vh;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="margin: 0;">🛒 Votre Panier</h2>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            {% if articles %}
+            <a href="{{ url_for('main.vider_panier') }}" class="btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir vider tout le panier ?');" style="font-size: 0.9rem;">🗑️ Vider</a>
+            {% endif %}
+            <a href="/boutique" class="back-link" style="text-decoration: none; color: var(--primary-color); font-weight: 600;">← Continuer mes achats</a>
+        </div>
+    </div>
+
+    {% if articles %}
+    <div class="panier-grid">
+        <div class="panier-items">
+            {% for item in articles %}
+            <div class="panier-card" id="card-{{ item.produit.id }}">
+                <img src="{{ item.produit.image }}" alt="{{ item.produit.nom }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px;">
+                
+                <div class="item-details">
+                    <h3 style="margin: 0 0 5px 0;">{{ item.produit.nom }}</h3>
+                    <p class="unit-price" style="color: #64748b; font-size: 0.9rem;">{{ item.produit.prix }} DH / unité</p>
+                </div>
+                
+                <div class="item-quantity">
+                    <div class="qty-controls" style="display: flex; align-items: center; gap: 15px; background: #f1f5f9; padding: 5px 15px; border-radius: 10px;">
+                        <button class="btn-qty" onclick="modifierQuantite('{{ item.produit.id }}', 'moins')" style="border: none; background: none; cursor: pointer; font-size: 1.2rem; font-weight: bold;">−</button>
+                        <span class="qty-value" style="font-weight: 600; min-width: 20px; text-align: center;">{{ item.quantite }}</span>
+                        <button class="btn-qty" onclick="modifierQuantite('{{ item.produit.id }}', 'plus')" style="border: none; background: none; cursor: pointer; font-size: 1.2rem; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="item-total" style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem; min-width: 100px; text-align: right;">
+                    {{ item.sous_total }} DH
+                </div>
+
+                <div class="item-actions">
+                    <button class="btn-delete" onclick="supprimerArticle('{{ item.produit.id }}')" style="background: #fee2e2; color: #ef4444; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; margin-left: 20px;">✕</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="panier-summary">
+            <div style="background: white; padding: 25px; border-radius: 20px; border: 1px solid #e2e8f0; position: sticky; top: 100px;">
+                <h3 style="margin-top: 0; margin-bottom: 20px;">Résumé de la commande</h3>
+                
+                <div class="summary-line" style="display: flex; justify-content: space-between; margin-bottom: 12px; color: #64748b;">
+                    <span>Sous-total</span>
+                    <span>{{ total }} DH</span>
+                </div>
+                
+                <div class="summary-line" style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                    <span>Livraison</span>
+                    <span style="color: #10b981; font-weight: bold;">Gratuite</span>
+                </div>
+                
+                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+                
+                <div class="summary-line total" style="display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: 800; margin-bottom: 25px;">
+                    <span>Total</span>
+                    <span>{{ total }} DH</span>
+                </div>
+                
+                <a href="{{ '/checkout' if articles else '#' }}" id="checkoutLink" style="text-decoration: none; {{ 'pointer-events: none; opacity: 0.5;' if not articles }}">
+                    <button class="btn-checkout" id="checkoutBtn" {% if not articles %}disabled{% endif %} style="width: 100%; background: var(--primary-color); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; {{ 'cursor: not-allowed;' if not articles }}">
+                        Procéder au paiement →
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="empty-cart" style="text-align: center; padding: 80px 20px; background: white; border-radius: 30px; border: 1px solid #e2e8f0;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">🛒</div>
+        <h2 style="margin-bottom: 10px;">Votre panier est vide</h2>
+        <p style="color: #64748b; margin-bottom: 30px;">Il semblerait que vous n'ayez pas encore fait votre choix.</p>
+        <a href="/boutique" class="btn-primary" style="text-decoration: none; padding: 15px 30px; background: var(--primary-color); color: white; border-radius: 12px; font-weight: 600;">Découvrir nos produits</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Modifier la quantité
+    function modifierQuantite(id, action) {
+        fetch('/api/panier/modifier', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id, action: action })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                // Mise à jour de la ligne produit
+                const card = document.getElementById(`card-${id}`);
+                if (data.item_qty === 0) {
+                    if(card) card.remove();
+                } else {
+                    if(card) {
+                        card.querySelector('.qty-value').innerText = data.item_qty;
+                        card.querySelector('.item-total').innerText = data.item_total + ' DH';
+                    }
+                }
+                
+                // Mise à jour des totaux globaux
+                updateTotals(data.total, data.cart_count);
+                
+                if (data.cart_count === 0) window.location.reload();
+            } else if (data.message) {
+                alert(data.message);
+            }
+        });
+    }
+
+    // Supprimer un article avec animation
+    function supprimerArticle(id) {
+        const card = document.getElementById(`card-${id}`);
+        fetch('/api/panier/supprimer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                if(card) {
+                    card.style.opacity = "0";
+                    card.style.transform = "translateX(50px)";
+                    setTimeout(() => {
+                        card.remove();
+                        updateTotals(data.total, data.cart_count);
+                        if (data.cart_count === 0) window.location.reload();
+                    }, 300);
+                }
+            }
+        });
+    }
+
+    function updateTotals(total, count) {
+        // Mise à jour du résumé (Sous-total et Total)
+        const subTotalEl = document.querySelector('.summary-line:first-child span:last-child');
+        const totalEl = document.querySelector('.summary-line.total span:last-child');
+        
+        if(subTotalEl) subTotalEl.innerText = total + ' DH';
+        if(totalEl) totalEl.innerText = total + ' DH';
+        
+        // Mise à jour du badge panier dans le menu
+        const badge = document.getElementById('cart-count');
+        if(badge) {
+            badge.innerText = count;
+            badge.classList.add('bounce');
+            setTimeout(() => badge.classList.remove('bounce'), 300);
+        }
+
+        // Désactiver le bouton si panier vide
+        if (count === 0) {
+            const btn = document.getElementById('checkoutBtn');
+            const link = document.getElementById('checkoutLink');
+            if(btn) {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+            }
+            if(link) {
+                link.removeAttribute('href');
+                link.style.pointerEvents = 'none';
+            }
+        }
+    }
+</script>
+{% endblock %}
