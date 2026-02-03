@@ -1,52 +1,87 @@
-# 🛍️ Novastore - Plateforme E-Commerce (Projet POO Python)
+# 🛍️ Novastore — E-Commerce Platform (Python OOP Project)
 
-**Novastore** est une application web e-commerce développée dans le cadre du module de **Programmation Orientée Objet (POO)** à l'**ENSA Khouribga**. L'objectif est de démontrer l'application des concepts POO au sein d'une architecture Web moderne (Flask).
-
----
-
-## 🧬 Concepts POO Matérialisés
-
-Contrairement à un script simple, ce projet repose sur une structure d'objets rigoureuse située dans `novastore/models.py` et `novastore/poo_classes.py` :
-
-- **Encapsulation** : Gestion sécurisée des données utilisateurs et des attributs produits.
-- **Abstraction** : Modélisation des entités réelles (Utilisateur, Produit, Commande) en classes Python.
-- **Persistance des Objets** : Utilisation de SQLAlchemy pour mapper nos objets POO vers une base de données relationnelle.
-- **Logique Métier** : Méthodes de classe pour le calcul des totaux, la gestion des stocks et la validation des paniers.
+**Novastore** is a web-based e-commerce application developed using **Python (Object-Oriented Programming)** and **Flask**.  
+The project demonstrates how core OOP principles can be applied within a modern web architecture.
 
 ---
 
-## 🚀 Fonctionnalités du Système
+## 🧬 Object-Oriented Programming Concepts
 
-- **Gestion des Utilisateurs** : Inscription, connexion et sessions sécurisées.
-- **Catalogue & Recherche** : Filtrage par catégories et moteur de recherche intégré.
-- **Système de Panier API** : Interaction dynamique pour l'ajout et la modification d'articles.
-- **Génération de Factures** : Transformation des objets "Commande" en documents exploitables.
-- **Dashboard Admin** : Interface de gestion CRUD (Create, Read, Update, Delete) pour les administrateurs.
+This project is built on a well-structured object-oriented design, mainly located in  
+`novastore/models.py` and `novastore/poo_classes.py`.
+
+- **Encapsulation**: Secure management of user data and product attributes
+- **Abstraction**: Real-world entities (User, Product, Order) modeled as Python classes
+- **Object Persistence**: SQLAlchemy ORM used to map OOP objects to a relational database
+- **Business Logic**: Class methods handling cart validation, stock management, and order total calculation
 
 ---
 
-## 🏗️ Architecture du Projet
+## 🚀 Features
+
+- User management (registration, authentication, sessions)
+- Product catalog with category filtering and search
+- Dynamic shopping cart system (API-based interactions)
+- Order processing and invoice generation
+- Admin dashboard with full CRUD operations
+
+---
+
+## 🏗️ Project Structure
 
 ```text
 novastore/
-├── app.py                 # Point d'entrée Flask
-├── run.py                 # Script de lancement
+├── app.py                 # Flask application entry point
+├── run.py                 # Application launcher
 ├── novastore/
-│   ├── models.py          # Définition des classes POO (SQLAlchemy)
-│   ├── poo_classes.py     # Logique métier spécifique
-│   └── routes/            # Blueprints (Contrôleurs)
-├── templates/             # Interface utilisateur (Jinja2)
-├── static/                # Design (CSS, JS, Images)
-└── scripts/               # Scripts de peuplement (Seed)
-```
----
-## 👥 Équipe de Réalisation 
-*Filière : Informatique et Ingénierie des Données (IID)*
+│   ├── models.py          # ORM-based OOP models (SQLAlchemy)
+│   ├── poo_classes.py     # Core business logic
+│   └── routes/            # Flask Blueprints (controllers)
+├── templates/             # Jinja2 templates
+├── static/                # CSS, JS, assets
+└── scripts/               # Database seeding scripts
 
-* **Azeddine Maktou**
-* **Othmane Laaouina**
-* **Godwin Elie Nougbolo**
-* **Mariam M’barki**
-* **Kawtar Mahboub El Idrissi**
 ```
-© 2025 - **École Nationale des Sciences Appliquées de Khouribga**
+🧰 Tech Stack
+
+Language: Python 3
+
+Framework: Flask
+
+ORM: SQLAlchemy
+
+Database: SQLite / MySQL
+
+Frontend: HTML5, CSS3, JavaScript (Jinja2)
+```
+
+⚙️ Installation
+git clone https://github.com/YOUR_USERNAME/Novastore.git
+cd Novastore
+
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
+python run.py
+
+```
+
+Application available at:
+👉 http://127.0.0.1:5000
+
+```
+👥 Team
+
+Computer Science & Data Engineering (IID)
+
+Azeddine Maktou
+
+Othmane Laaouina
+
+Godwin Elie Nougbolo
+
+Mariam M’barki
+
+Kawtar Mahboub El Idrissi
+```
