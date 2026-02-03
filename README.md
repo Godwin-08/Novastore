@@ -41,6 +41,7 @@ novastore/
 ```
 ---
 ## 👥 Équipe de Projet (ENSA Khouribga)
+*Filière : Informatique et Ingénierie des Données (IID)*
 
 * **Azeddine Maktou**
 * **Othmane Laaouina**
