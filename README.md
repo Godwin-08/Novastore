@@ -38,3 +38,13 @@ novastore/
 ├── templates/             # Interface utilisateur (Jinja2)
 ├── static/                # Design (CSS, JS, Images)
 └── scripts/               # Scripts de peuplement (Seed)
+## 👥 Équipe de Projet (ENSA Khouribga)
+
+* **Azeddine Maktou**
+* **Othmane Laaouina**
+* **Godwin Elie Nougbolo**
+* **Mariam M’barki**
+* **Kawtar Mahboub El Idrissi**
+
+---
+© 2025 - **École Nationale des Sciences Appliquées de Khouribga**
