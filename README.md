@@ -38,6 +38,8 @@ novastore/
 ├── templates/             # Interface utilisateur (Jinja2)
 ├── static/                # Design (CSS, JS, Images)
 └── scripts/               # Scripts de peuplement (Seed)
+
+---
 ## 👥 Équipe de Projet (ENSA Khouribga)
 
 * **Azeddine Maktou**
