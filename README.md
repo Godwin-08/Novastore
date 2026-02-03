@@ -44,15 +44,11 @@ novastore/
 ```
 🧰 Tech Stack
 
-Language: Python 3
-
-Framework: Flask
-
-ORM: SQLAlchemy
-
-Database: SQLite / MySQL
-
-Frontend: HTML5, CSS3, JavaScript (Jinja2)
+- Language: Python 3
+- Framework: Flask
+- ORM: SQLAlchemy
+- Database: SQLite / MySQL
+- Frontend: HTML5, CSS3, JavaScript (Jinja2)
 ```
 
 ⚙️ Installation
@@ -75,13 +71,9 @@ Application available at:
 
 Computer Science & Data Engineering (IID)
 
-Azeddine Maktou
-
-Othmane Laaouina
-
-Godwin Elie Nougbolo
-
-Mariam M’barki
-
-Kawtar Mahboub El Idrissi
+- Azeddine Maktou
+- Othmane Laaouina
+- Godwin Elie Nougbolo
+- Mariam M’barki
+- Kawtar Mahboub El Idrissi
 ```
