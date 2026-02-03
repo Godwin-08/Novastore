@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Profil - NovaStore{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profil.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container profil-container">
+    <!-- En-tête Profil -->
+    <div class="profil-header reveal-on-scroll">
+        <div class="avatar-large">
+            {{ client.nom[0]|upper }}
+        </div>
+        <div class="profil-intro">
+            <h1>Bonjour, {{ client.nom }} !</h1>
+            <p class="member-badge">Membre NovaStore ✨</p>
+        </div>
+    </div>
+
+    <div class="profil-grid">
+        <!-- Carte Informations -->
+        <div class="profil-card reveal-on-scroll">
+            <div class="card-header">
+                <h3>👤 Mes Informations</h3>
+                <button class="btn-edit">Modifier</button>
+            </div>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="label">Nom complet</span>
+                    <span class="value">{{ client.nom }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Email</span>
+                    <span class="value">{{ client.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Téléphone</span>
+                    <span class="value">+212 6 00 00 00 00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Adresse -->
+        <div class="profil-card reveal-on-scroll" style="transition-delay: 0.1s;">
+            <div class="card-header">
+                <h3>📍 Mon Adresse</h3>
+            </div>
+            <div class="address-box">
+                <p>{{ client.adresse }}</p>
+                <p>Maroc</p>
+            </div>
+            <div class="actions-row">
+                <a href="{{ url_for('main.commandes') }}" class="btn-action primary">📦 Mes Commandes</a>
+                <a href="{{ url_for('main.voir_panier') }}" class="btn-action secondary">🛒 Mon Panier</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

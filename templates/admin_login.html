@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Admin Login - NovaStore{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 400px; margin: 80px auto; padding: 40px; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #1e293b;">Accès Admin</h2>
+    <form method="POST">
+        <div style="margin-bottom: 20px;">
+            <label>Email</label>
+            <input type="email" name="email" class="form-input" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 8px;" required>
+        </div>
+        <div style="margin-bottom: 30px;">
+            <label>Mot de passe</label>
+            <input type="password" name="password" class="form-input" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 8px;" required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Se connecter</button>
+    </form>
+    <p style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #64748b;">
+        (Test: admin@novastore.ma / admin123)
+    </p>
+</div>
+{% endblock %}

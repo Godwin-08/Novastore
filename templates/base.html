@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NovaStore - Marketplace High-Tech & Mode{% endblock %}</title>
+    <meta name="description" content="{% block description %}NovaStore : La référence High-Tech et Mode au Maroc. Livraison rapide, produits certifiés et paiement sécurisé.{% endblock %}">
+    
+    <!-- Open Graph / Réseaux Sociaux (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.description() }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/logo.svg', _external=True) }}{% endblock %}">
+
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chargement optimisé depuis le sous-dossier css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <a class="skip-link" href="#mainContent">Aller au contenu</a>
+
+    <nav class="navbar">
+        <div class="container nav-inner">
+        <div class="logo" role="banner">
+    <a href="/boutique" class="brand-logo" aria-label="Accueil NovaStore">
+        <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        </div>
+        <span class="brand-text">Nova<span class="brand-accent">Store</span></span>
+    </a>
+    <!-- Mobile: toggle menu -->
+    <button id="navToggle" class="nav-toggle" aria-controls="mainNav" aria-expanded="false" aria-label="Ouvrir le menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+</div>
+
+        <!-- Barre de recherche centrale -->
+        <div class="search-container">
+            <form action="/boutique" method="GET" class="search-form" role="search">
+                <input type="search" name="q" id="searchInput" class="search-input" placeholder="Rechercher un produit, une marque..." autocomplete="off">
+                <button type="submit" class="search-btn" aria-label="Rechercher">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+        </div>
+
+        <div id="mainNav" class="nav-controls" role="navigation" aria-label="Navigation principale">
+            <!-- Liens de navigation (Visibles uniquement sur mobile via CSS) -->
+            <div class="mobile-nav-links">
+                <a href="/boutique" class="nav-item">🛍️ Toute la boutique</a>
+                <a href="/boutique?cat=PC" class="nav-item">💻 PC</a>
+                <a href="/boutique?cat=Téléphone" class="nav-item">📱 Téléphone</a>
+                <a href="/boutique?cat=Vêtement" class="nav-item">👕 Vêtement</a>
+                <a href="/boutique?cat=Livre" class="nav-item">📚 Livre</a>
+            </div>
+
+            {% if session.get('user') %}
+                <div class="profile-container">
+                    <div class="profile-trigger" id="profileTrigger" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                        <div class="avatar-circle">
+                            {{ session['user'][0]|upper }}
+                        </div>
+                        <span class="user-name-text">{{ session['user'] }}</span>
+                        <span class="chevron">▾</span>
+                    </div>
+                    
+                    <div id="profileMenu" class="profile-dropdown" role="menu" aria-hidden="true">
+                        <div class="dropdown-user-info">
+                            <strong>{{ session['user'] }}</strong>
+                            <p>Client Membre ✨</p>
+                        </div>
+                        <hr>
+                        <a href="/profil" class="dropdown-item" role="menuitem">👤 Mon Profil</a>
+                        <a href="/commandes" class="dropdown-item" role="menuitem">📦 Mes Commandes</a>
+                        <a href="/logout" class="dropdown-item logout-btn" role="menuitem">🚪 Déconnexion</a>
+                        {% if session.get('admin_user') %}
+                        <hr>
+                        <a href="{{ url_for('main.admin_dashboard') }}" class="dropdown-item" style="color: var(--primary); font-weight: bold;">🛠️ Dashboard Admin</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <a href="/login" class="login-link">Se connecter</a>
+            {% endif %}
+
+            <a href="/panier" class="cart-link" aria-label="Voir mon panier">
+                <div class="cart-icon">
+                    <!-- Icone Panier SVG (Chariot classique) -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span id="cart-count" class="badge">
+                        {{ session.get('panier', [])|length }}
+                    </span>
+                </div>
+            </a>
+        </div>
+        </div>
+    </nav>
+
+    <main id="mainContent" class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer" style="background: #0f172a; color: #f8fafc; padding: 60px 0 30px; margin-top: auto;">
+        <div class="container footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+            <!-- Bloc 1 : Marque & Réseaux -->
+            <div class="footer-brand">
+                <div class="footer-logo-text" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: white;">NovaStore</div>
+                <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 20px;">Votre référence shopping au Maroc. Nous sélectionnons pour vous les meilleurs produits High-Tech et Mode avec une garantie de qualité.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                    <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="#" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+                </div>
+            </div>
+
+            <!-- Bloc 2 : Boutique -->
+            <div>
+                <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Boutique</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="/boutique?cat=PC" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">PC</a></li>
+                    <li style="margin-bottom: 10px;"><a href="/boutique?cat=Téléphone" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">Téléphone</a></li>
+                    <li style="margin-bottom: 10px;"><a href="/boutique?cat=Vêtement" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">Vêtement</a></li>
+                    <li style="margin-bottom: 10px;"><a href="/boutique?cat=Livre" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">Livre</a></li>
+                </ul>
+            </div>
+
+            <!-- Bloc 3 : Aide -->
+            <div>
+                <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Aide</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="/commandes" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">Suivi de commande</a></li>
+                    <li style="margin-bottom: 10px;"><a href="{{ url_for('main.livraison') }}" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">Livraison & Retours</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">FAQ</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;">CGV</a></li>
+                </ul>
+            </div>
+
+            <!-- Bloc 4 : Contact -->
+            <div>
+                <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Nous contacter</h4>
+                <ul class="contact-info" style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #94a3b8;">
+                        <span style="font-size: 1.2rem;">📍</span> Khouribga, Maroc
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #94a3b8;">
+                        <span style="font-size: 1.2rem;">📞</span> +212 522 00 00 00
+                    </li>
+                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: #94a3b8;">
+                        <span style="font-size: 1.2rem;">📧</span> contact@novastore.ma
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom" style="border-top: 1px solid #1e293b; padding-top: 30px;">
+            <div class="container bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <p style="color: #64748b; margin: 0;">
+                    &copy; 2025 NovaStore. Tous droits réservés. - <a href="{{ url_for('main.admin_login') }}" style="color: #64748b; text-decoration: underline;">Admin</a>
+                </p>
+                <div class="payment-methods" style="display: flex; gap: 15px;">
+                    <span class="pay-icon" style="background: #1e293b; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">💳 Visa</span>
+                    <span class="pay-icon" style="background: #1e293b; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">💳 MasterCard</span>
+                    <span class="pay-icon" style="background: #1e293b; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">💵 Cash à la livraison</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="productModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalName" aria-describedby="modalDesc" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-modal" id="modalCloseBtn" aria-label="Fermer la fenêtre" type="button">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImg" src="" alt="Produit" onerror="this.style.display='none'; document.getElementById('modalPlaceholder').style.display='flex';">
+                    <div id="modalPlaceholder" style="display:none; width:100%; height:100%; min-height:300px; align-items:center; justify-content:center; background:#f8fafc; color:#cbd5e1;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M21 21l-2-2m-3.268-3.268L6 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3.172"></path><path d="M7 3h10a2 2 0 0 1 2 2v2.172"></path></svg>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <h2 id="modalName">Nom du Produit</h2>
+                    <span id="modalCat" class="modal-category">Catégorie</span>
+                    <p id="modalDesc">Description détaillée du produit...</p>
+                    <div id="modalStock" style="margin-bottom: 15px; font-size: 0.9rem; font-weight: 600;"></div>
+                    <div id="modalPrice" class="price">0 DH</div>
+                    <button id="modalAddBtn" class="btn-add" aria-label="Ajouter au panier">🛒 Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement optimisé depuis le sous-dossier js -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

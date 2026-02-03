@@ -1,0 +1,97 @@
+.profil-container {
+    padding-top: 60px;
+    padding-bottom: 80px;
+    max-width: 900px;
+}
+
+/* Header */
+.profil-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid #f1f5f9;
+}
+
+.avatar-large {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #FF6A3D, #D9480F);
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 10px 20px rgba(255, 106, 61, 0.3);
+}
+
+.profil-intro h1 { margin: 0 0 10px 0; color: #1e293b; }
+.member-badge {
+    display: inline-block;
+    background: #fff7ed;
+    color: #ea580c;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid #ffedd5;
+}
+
+/* Grid */
+.profil-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.profil-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 15px;
+}
+
+.card-header h3 { margin: 0; color: #1e293b; font-size: 1.2rem; }
+
+.btn-edit {
+    background: none; border: none; color: #64748b; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+}
+.btn-edit:hover { color: #FF6A3D; }
+
+.info-item {
+    display: flex; justify-content: space-between; margin-bottom: 15px;
+}
+.label { color: #94a3b8; font-size: 0.95rem; }
+.value { color: #334155; font-weight: 500; }
+
+.address-box {
+    background: #f8fafc; padding: 20px; border-radius: 12px; color: #475569; margin-bottom: 25px;
+}
+
+.actions-row { display: flex; gap: 15px; }
+.btn-action {
+    flex: 1; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: 0.2s;
+}
+.btn-action.primary { background: #1e293b; color: white; }
+.btn-action.primary:hover { background: #0f172a; transform: translateY(-2px); }
+
+.btn-action.secondary { background: white; color: #1e293b; border: 1px solid #e2e8f0; }
+.btn-action.secondary:hover { border-color: #1e293b; }
+
+@media (max-width: 768px) { .profil-header { flex-direction: column; text-align: center; } }

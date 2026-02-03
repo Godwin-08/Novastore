@@ -1,0 +1,17 @@
+{
+  "css": {
+    "base": "/static/css/base.css",
+    "pages": {
+      "landing": "/static/css/pages/landing.css",
+      "auth": "/static/css/pages/auth.css",
+      "checkout": "/static/css/pages/checkout.css",
+      "profil": "/static/css/pages/profil.css"
+    }
+  },
+  "js": {
+    "main": "/static/js/main.js",
+    "pages": {
+      "landing": "/static/js/pages/landing.js"
+    }
+  }
+}

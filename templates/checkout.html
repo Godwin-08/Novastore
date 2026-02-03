@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Paiement Sécurisé - NovaStore Pro{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/checkout.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container panier-container" style="padding-top: 40px; min-height: 80vh;">
+    <h2 style="text-align: center; margin-bottom: 2.5rem; font-size: 2rem; color: #1e293b;">Finalisation de la commande</h2>
+    
+    <div class="panier-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        
+        <div class="checkout-section" style="background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+            <h3 class="section-title">
+                <span class="icon">📍</span> Informations de Livraison
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="input-group">
+                    <label for="nom">Nom complet</label>
+                    <input type="text" id="nom" placeholder="Ex: Ahmed Alami" class="input-checkout">
+                </div>
+                <div class="input-group">
+                    <label for="adresse">Adresse exacte</label>
+                    <input type="text" id="adresse" placeholder="Rue, Quartier, N° d'appartement" class="input-checkout">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="input-group">
+                        <label for="ville">Ville</label>
+                        <input type="text" id="ville" placeholder="Casablanca" class="input-checkout">
+                    </div>
+                    <div class="input-group">
+                        <label for="tel">Téléphone</label>
+                        <input type="tel" id="tel" placeholder="06XXXXXXXX" class="input-checkout">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-section" style="background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+            <h3 class="section-title">
+                <span class="icon">💳</span> Méthode de Paiement
+            </h3>
+            
+            <div class="payment-options" style="display: flex; gap: 10px; margin-bottom: 25px; background: #f1f5f9; padding: 5px; border-radius: 12px;">
+                <button class="btn-pay-choice active" id="btn-paypal" onclick="switchTab('paypal')">PayPal / Carte</button>
+                <button class="btn-pay-choice" id="btn-cod" onclick="switchTab('cod')">Cash à la livraison</button>
+            </div>
+
+            <div class="summary-line total" style="background: #f8fafc; padding: 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border: 1px solid #e2e8f0;">
+                <span style="font-weight: 600; color: #64748b;">Total à régler :</span>
+                <span style="font-size: 1.5rem; font-weight: 800; color: var(--primary-color);">{{ total }} DH</span>
+            </div>
+
+            <div id="paypal-section">
+                <div id="paypal-button-container"></div>
+                <p style="font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 15px;">
+                    🔒 Vos données bancaires sont cryptées et sécurisées.
+                </p>
+            </div>
+
+            <div id="cod-section" style="display: none;">
+                <div style="background: #ecfdf5; border: 2px dashed #10b981; padding: 20px; border-radius: 15px; text-align: center;">
+                    <span style="font-size: 2.5rem;">🚚</span>
+                    <p style="font-size: 0.95rem; color: #065f46; margin: 10px 0;">
+                        Paiement facile en espèces lors de la réception de votre colis.
+                    </p>
+                </div>
+                <button class="btn-checkout-cod" onclick="confirmCOD()" style="margin-top: 20px; background: #1e293b; width: 100%; color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s;">
+                    Confirmer ma commande
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+<script>
+    function switchTab(method) {
+        const paypalSection = document.getElementById('paypal-section');
+        const codSection = document.getElementById('cod-section');
+        const btnPaypal = document.getElementById('btn-paypal');
+        const btnCod = document.getElementById('btn-cod');
+
+        if (method === 'paypal') {
+            paypalSection.style.display = 'block';
+            codSection.style.display = 'none';
+            btnPaypal.classList.add('active');
+            btnCod.classList.remove('active');
+        } else {
+            paypalSection.style.display = 'none';
+            codSection.style.display = 'block';
+            btnCod.classList.add('active');
+            btnPaypal.classList.remove('active');
+        }
+    }
+
+    function confirmCOD() {
+        const nom = document.getElementById('nom').value;
+        const adresse = document.getElementById('adresse').value;
+        const tel = document.getElementById('tel').value;
+
+        if(!nom || !adresse || !tel) {
+            alert("Veuillez remplir toutes les informations de livraison avant de confirmer.");
+            return;
+        }
+
+        const btn = document.querySelector('.btn-checkout-cod');
+        btn.innerText = "⏳ Validation en cours...";
+        btn.disabled = true;
+
+        // Simulation d'envoi de commande
+        setTimeout(() => {
+            window.location.href = "/success";
+        }, 1500);
+    }
+
+    // PayPal
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            // Conversion approximative DH vers USD pour le test
+            const valUSD = (parseFloat("{{ total }}") / 10).toFixed(2);
+            return actions.order.create({
+                purchase_units: [{ amount: { value: valUSD } }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                window.location.href = "/success";
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock %}

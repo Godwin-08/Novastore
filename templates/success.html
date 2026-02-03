@@ -1,0 +1,70 @@
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ url_for('main.facture') }}" style="display: inline-block; padding: 10px 20px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 5px;">
+        📄 Télécharger ma facture
+    </a>
+</div>
+{% extends "base.html" %}
+
+{% block title %}Commande Confirmée - NovaStore Pro{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/success.css') }}">
+{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<div class="success-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div class="success-card" style="background: white; padding: 3rem; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; max-width: 600px; width: 100%;">
+        
+        <div class="check-icon" style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem; animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48);">✓</div>
+        
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; color: #1e293b;">Merci pour votre commande !</h1>
+        <p style="color: #64748b; margin-bottom: 2rem;">Votre demande a été traitée avec succès et notre équipe prépare déjà votre colis.</p>
+        
+        <div class="order-info" style="background: #f8fafc; padding: 1.5rem; border-radius: 20px; text-align: left; margin-bottom: 1.5rem; border: 1px dashed #cbd5e1;">
+            <div class="info-line" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="color: #64748b;">Numéro de commande :</span>
+                <strong style="color: var(--primary-color);">#{{ order_number }}</strong>
+            </div>
+            <div class="info-line" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="color: #64748b;">Montant total :</span>
+                <strong style="font-size: 1.2rem;">{{ total }} DH</strong>
+            </div>
+            <div class="info-line" style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Statut :</span>
+                <span style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Confirmée</span>
+            </div>
+        </div>
+
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem;">📧 Un e-mail de confirmation vous a été envoyé.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <a href="/boutique" class="btn-home" style="background: var(--primary-color); color: white; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s;">Continuer mes achats</a>
+            <a href="/commandes" style="color: var(--primary-color); text-decoration: none; font-size: 0.9rem; font-weight: 600;">Suivre l'état de ma commande →</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Lancement des confettis
+    var end = Date.now() + (3 * 1000);
+    (function frame() {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#2563eb', '#10b981', '#f59e0b']
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#2563eb', '#10b981', '#f59e0b']
+      });
+      if (Date.now() < end) { requestAnimationFrame(frame); }
+    }());
+</script>
+{% endblock %}
