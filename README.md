@@ -52,12 +52,14 @@ novastore/
 ```
 
 ⚙️ Installation
-git clone https://github.com/YOUR_USERNAME/Novastore.git
+git clone [https://github.com/Godwin-08/Novastore.git](https://github.com/Godwin-08/Novastore.git)
 cd Novastore
 
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+# Windows: venv\Scripts\activate | macOS/Linux: source venv/bin/activate
 
+# Install dependencies and launch
 pip install -r requirements.txt
 python run.py
 
