@@ -48,5 +48,4 @@ novastore/
 * **Mariam M’barki**
 * **Kawtar Mahboub El Idrissi**
 ```
----
 © 2025 - **École Nationale des Sciences Appliquées de Khouribga**
