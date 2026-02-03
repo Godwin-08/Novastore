@@ -40,7 +40,7 @@ novastore/
 └── scripts/               # Scripts de peuplement (Seed)
 ```
 ---
-## 👥 Équipe de Projet (ENSA Khouribga)
+## 👥 Équipe de Réalisation 
 *Filière : Informatique et Ingénierie des Données (IID)*
 
 * **Azeddine Maktou**
